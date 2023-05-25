@@ -1,3 +1,4 @@
+import math
 import random
 import time
 import pygame
@@ -23,7 +24,7 @@ class Forest:
             power = random.uniform(0, 5)
             vsb = random.uniform(power, 10)
             agr = random.uniform(0, 10)
-            speed = random.uniform(0.01, 0.999)
+            speed = random.uniform(0.1, 0.999)
             civ = Civilisation(random.randint(0, self.screen_width), random.randint(0, self.screen_height),
                                agr, vsb, power,
                                speed, random.uniform(0, 0.01), random.uniform(0, 0.05),
@@ -58,6 +59,14 @@ class Forest:
                                 civ.attack(target)
                             else:
                                 civ.ignore()
+
+                    for j in range(len(self.population)):
+                        distance = math.sqrt(
+                            (self.population[j].x - civ.x) ** 2 + (self.population[j].y - civ.y) ** 2)
+                        if distance > 0:
+
+                            if distance < civ.vsb:
+                                civ.visible_civilisations.append(self.population[j])
 
                 self.screen.draw(self.population, dt)
 

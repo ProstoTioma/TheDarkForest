@@ -28,14 +28,6 @@ class Screen:
                 vsb_arc = pygame.Rect(population[i].x, population[i].y, population[i].vsb, population[i].vsb)
                 vsb_arc.center = population[i].x, population[i].y
 
-                for j in range(len(population)):
-                    distance = math.sqrt(
-                        (population[j].x - population[i].x) ** 2 + (population[j].y - population[i].y) ** 2)
-                    if distance > 0:
-
-                        if distance < population[i].vsb:
-                            population[i].visible_civilisations.append(population[j])
-
                 pygame.draw.arc(self.screen, (255, 255, 255),
                                 vsb_arc, 0, math.pi * 2)
 
