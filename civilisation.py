@@ -66,10 +66,8 @@ class Civilisation:
                             sig.goal_civ.hp -= 1
                             if sig.goal_civ.hp <= 0:
                                 sig.goal_civ.alive = False
-                                if sig.goal_civ in self.visible_civilisations:
-                                    self.visible_civilisations.remove(sig.goal_civ)
-                                    print(len(self.visible_civilisations))
-                                    self.power += sig.goal_civ.power * 0.5
+                                self.power += sig.goal_civ.power * 0.5
+                                sig.goal_civ.visible_civilisations.clear()
                                 # self.vsb += sig.goal_civ.vsb * 0.5
 
                         else:

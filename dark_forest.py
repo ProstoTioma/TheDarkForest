@@ -46,7 +46,7 @@ class Forest:
                           round(sum(civ.age for civ in self.population) / len(self.population)), " Average power: ",
                           round(sum(civ.power for civ in self.population)) / len(self.population), " Dead count: ",
                           self.dead_count, " Time: ", round(age_of_universe), " Visible Civs: ",
-                          round(sum(civ.power for civ in self.population)) / len(self.population))
+                          round(sum(len(civ.visible_civilisations) for civ in self.population)))
                 dt = self.clock.tick(60)
                 age_of_universe += 1 / dt
 
@@ -67,10 +67,12 @@ class Forest:
                                 civ.ignore()
 
                         for j in range(len(self.population)):
+                            if not self.population[j].alive:
+                                if self.population[j] in civ.visible_civilisations:
+                                    civ.visible_civilisations.remove(self.population[j])
                             distance = math.sqrt(
                                 (self.population[j].x - civ.x) ** 2 + (self.population[j].y - civ.y) ** 2)
                             if distance > 0:
-
                                 if distance < civ.vsb and self.population[j].alive:
                                     ids = [civ.id for civ in civ.visible_civilisations]
                                     if self.population[j].id not in ids:
