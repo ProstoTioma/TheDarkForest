@@ -25,10 +25,11 @@ class Forest:
             power = random.uniform(0, 5)
             vsb = random.uniform(power, 10)
             agr = random.uniform(0, 10)
-            speed = random.uniform(0.1, 0.999)
+            #speed = random.uniform(0.1, 0.999)
+            speed = random.uniform(5, 10)
             civ = Civilisation(random.randint(0, self.screen_width), random.randint(0, self.screen_height),
                                agr, vsb, power,
-                               speed, random.uniform(0, 0.01), random.uniform(0, 0.05),
+                               speed, random.uniform(0, 0.01), random.uniform(0, 0.5),
                                random.uniform(0, 0.1))
 
             pop.append(civ)
@@ -36,14 +37,16 @@ class Forest:
 
     def simulate(self):
         age_of_universe = 0
-        n = 100
+        n = 150
         self.population = self.generate_civilisations(n)
         while True:
             if len(self.population) > 0:
-                print('Length of population: ', len(self.population) - self.dead_count, ' Average age: ',
-                      round(sum(civ.age for civ in self.population) / len(self.population)), " Average power: ",
-                      round(sum(civ.power for civ in self.population)) / len(self.population), " Dead count: ",
-                      self.dead_count, " Time: ", age_of_universe)
+                if round(age_of_universe) % 10 == 0:
+                    print('Length of population: ', len(self.population) - self.dead_count, ' Average age: ',
+                          round(sum(civ.age for civ in self.population) / len(self.population)), " Average power: ",
+                          round(sum(civ.power for civ in self.population)) / len(self.population), " Dead count: ",
+                          self.dead_count, " Time: ", round(age_of_universe), " Visible Civs: ",
+                          round(sum(civ.power for civ in self.population)) / len(self.population))
                 dt = self.clock.tick(60)
                 age_of_universe += 1 / dt
 
@@ -68,10 +71,10 @@ class Forest:
                                 (self.population[j].x - civ.x) ** 2 + (self.population[j].y - civ.y) ** 2)
                             if distance > 0:
 
-                                if distance < civ.vsb:
-                                    civ.visible_civilisations.append(self.population[j])
-
-
+                                if distance < civ.vsb and self.population[j].alive:
+                                    ids = [civ.id for civ in civ.visible_civilisations]
+                                    if self.population[j].id not in ids:
+                                        civ.visible_civilisations.append(self.population[j])
 
                 # if random.randint(0, 1000) == 10: TODO spawn new civs
                 #    self.population = self.generate_civilisations(1)

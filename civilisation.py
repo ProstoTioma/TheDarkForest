@@ -10,6 +10,8 @@ random.seed(time.time())
 
 class Civilisation:
     def __init__(self, x, y, agr, vsb, power, speed, d_agr, d_vsb, d_power):
+        self.id = random.randint(0, 9999999)
+
         self.power = power
         self.x = x
         self.y = y
@@ -28,6 +30,8 @@ class Civilisation:
         self.signals = []
 
         self.alive = True
+
+        self.hp = self.power
 
         self.colour = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
@@ -59,10 +63,14 @@ class Civilisation:
                 if len(self.signals) > 0:
                     if sig.reached:
                         if sig.aggressive:
-                            sig.goal_civ.alive = False
-                            self.visible_civilisations.remove(sig.goal_civ)
-                            self.power += sig.goal_civ.power * 0.5
-                            self.vsb += sig.goal_civ.vsb * 0.5
+                            sig.goal_civ.hp -= 1
+                            if sig.goal_civ.hp <= 0:
+                                sig.goal_civ.alive = False
+                                if sig.goal_civ in self.visible_civilisations:
+                                    self.visible_civilisations.remove(sig.goal_civ)
+                                    print(len(self.visible_civilisations))
+                                    self.power += sig.goal_civ.power * 0.5
+                                # self.vsb += sig.goal_civ.vsb * 0.5
 
                         else:
                             self.power += sig.goal_civ.power * 0.2
