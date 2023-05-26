@@ -59,8 +59,8 @@ class Civilisation:
                 if len(self.signals) > 0:
                     if sig.reached:
                         if sig.aggressive:
-                            sig.goal_civ.power -= self.power
                             self.power += sig.goal_civ.power * 0.2
+                            sig.goal_civ.power -= self.power
 
                             if sig.goal_civ.power <= 0:
                                 sig.goal_civ.alive = False
