@@ -29,7 +29,7 @@ class Forest:
             speed = random.uniform(5, 10)
             civ = Civilisation(random.randint(0, self.screen_width), random.randint(0, self.screen_height),
                                agr, vsb, power,
-                               speed, random.uniform(0, 0.01), random.uniform(0, 0.5),
+                               speed, random.uniform(0, 0.01), random.uniform(0, 0.1),
                                random.uniform(0, 0.1))
 
             pop.append(civ)

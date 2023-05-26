@@ -72,7 +72,7 @@ class Civilisation:
 
                         else:
                             self.power += sig.goal_civ.power * 0.2
-                            self.vsb += sig.goal_civ.vsb * 0.2
+                            # self.vsb += sig.goal_civ.vsb * 0.2
 
                         self.signals.remove(sig)
 

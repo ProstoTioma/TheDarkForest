@@ -21,11 +21,11 @@ class Screen:
             pygame.draw.circle(self.screen, civ.colour,
                                (civ.x, civ.y), size)
 
-            vsb_arc = pygame.Rect(civ.x, civ.y, civ.vsb, civ.vsb)
-            vsb_arc.center = civ.x, civ.y
+            vsb_arc_radius = civ.vsb + size
+            vsb_arc_rect = pygame.Rect(0, 0, vsb_arc_radius * 2, vsb_arc_radius * 2)
+            vsb_arc_rect.center = civ.x, civ.y
 
-            pygame.draw.arc(self.screen, (255, 255, 255),
-                            vsb_arc, 0, math.pi * 2)
+            pygame.draw.arc(self.screen, (255, 255, 255), vsb_arc_rect, 0, math.pi * 2)
 
             # self.live(dt)
 
