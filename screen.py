@@ -16,7 +16,7 @@ class Screen:
             elif civ.power < 200:
                 size = 5
             else:
-                size = 10
+                size = 15
 
             pygame.draw.circle(self.screen, civ.colour,
                                (civ.x, civ.y), size)
@@ -26,8 +26,6 @@ class Screen:
             vsb_arc_rect.center = civ.x, civ.y
 
             pygame.draw.arc(self.screen, (255, 255, 255), vsb_arc_rect, 0, math.pi * 2)
-
-            # self.live(dt)
 
             for signal in civ.signals:
                 signal_colour = (0, 200, 0) if not signal.aggressive else (200, 0, 0)

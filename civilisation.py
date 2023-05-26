@@ -1,7 +1,5 @@
 import random
 import time
-import math
-import pygame
 
 from signal import Signal
 
@@ -31,7 +29,6 @@ class Civilisation:
         self.signals = []
 
         self.alive = True
-
 
         self.colour = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
@@ -65,7 +62,7 @@ class Civilisation:
                             sig.goal_civ.power -= self.power
                             if sig.goal_civ.power <= 0:
                                 sig.goal_civ.alive = False
-                                self.power += sig.goal_civ.power * 0.5
+                                self.power += sig.goal_civ.power
                                 sig.goal_civ.visible_civilisations.clear()
 
                         else:
@@ -73,7 +70,7 @@ class Civilisation:
                                 if sig.goal_civ.agr < 9:
                                     self.alliances.append(sig.goal_civ)
                                     sig.goal_civ.alliances.append(self)
-                                    self.power += sig.goal_civ.power * 0.2
+                                    self.power += sig.goal_civ.power * 0.1
                         self.signals.remove(sig)
 
                     else:

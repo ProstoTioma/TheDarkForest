@@ -23,14 +23,14 @@ class Forest:
     def generate_civilisations(self, n):
         pop = []
         for i in range(n):
-            power = random.uniform(0, 5)
+            power = random.uniform(0, 25)
             vsb = random.uniform(power, 10)
             agr = random.uniform(0, 10)
             speed = random.uniform(0.1, 9.999)
             civ = Civilisation(random.randint(0, self.screen_width), random.randint(0, self.screen_height),
                                agr, vsb, power,
                                speed, random.uniform(0, 0.5),
-                               random.uniform(0, 0.1))
+                               random.uniform(0, 0.2))
 
             pop.append(civ)
         return pop
@@ -48,7 +48,9 @@ class Forest:
                           self.dead_count, " Time: ", round(age_of_universe), " Visible Civs: ",
                           round(sum(len(civ.visible_civilisations) for civ in self.population)),
                           " Average aggressive: ",
-                          round(sum(civ.agr for civ in self.population if civ.alive)) / len(self.population))
+                          round(sum(civ.agr for civ in self.population if civ.alive)) / len(self.population),
+                          " Number of alliances: ",
+                          round(sum(len(civ.alliances) for civ in self.population if civ.alive)) // 2)
                 dt = self.clock.tick(60)
                 age_of_universe += 1 / dt
 
@@ -66,7 +68,7 @@ class Forest:
                                     if random.randint(0, 100) == 1:
                                         civ.coexist(target)
                             elif civ.agr > 9:
-                                if random.randint(0, 100) == 1:
+                                if random.randint(0, 50) == 1:
                                     civ.attack(target)
                             else:
                                 civ.ignore()
