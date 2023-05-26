@@ -60,9 +60,10 @@ class Civilisation:
                     if sig.reached:
                         if sig.aggressive:
                             sig.goal_civ.power -= self.power
+                            self.power += sig.goal_civ.power * 0.2
+
                             if sig.goal_civ.power <= 0:
                                 sig.goal_civ.alive = False
-                                self.power += sig.goal_civ.power
                                 sig.goal_civ.alliances.clear()
                                 sig.goal_civ.visible_civilisations.clear()
 
