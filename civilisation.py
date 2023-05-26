@@ -59,7 +59,8 @@ class Civilisation:
                 if len(self.signals) > 0:
                     if sig.reached:
                         if sig.aggressive:
-                            self.power += sig.goal_civ.power * 0.2
+                            if sig.goal_civ.alive:
+                                self.power += (sig.goal_civ.power * 0.2)
                             sig.goal_civ.power -= self.power
 
                             if sig.goal_civ.power <= 0:
@@ -72,7 +73,7 @@ class Civilisation:
                                 if sig.goal_civ.agr < 8:
                                     self.alliances.append(sig.goal_civ)
                                     sig.goal_civ.alliances.append(self)
-                                    self.power += sig.goal_civ.power * 0.1
+                                    self.power += (sig.goal_civ.power * 0.1)
                         self.signals.remove(sig)
 
                     else:
