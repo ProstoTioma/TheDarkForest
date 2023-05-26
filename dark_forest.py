@@ -1,6 +1,7 @@
 import math
 import random
 import time
+
 import pygame
 
 from civilisation import Civilisation
@@ -28,7 +29,7 @@ class Forest:
             speed = random.uniform(0.1, 9.999)
             civ = Civilisation(random.randint(0, self.screen_width), random.randint(0, self.screen_height),
                                agr, vsb, power,
-                               speed, random.uniform(0, 0.01), random.uniform(0, 0.1),
+                               speed, random.uniform(0, 0.5),
                                random.uniform(0, 0.1))
 
             pop.append(civ)
@@ -41,11 +42,13 @@ class Forest:
         while True:
             if len(self.population) > 0:
                 if round(age_of_universe) % 10 == 0:
-                    print('Length of population: ', len(self.population) - self.dead_count, ' Average age: ',
-                          round(sum(civ.age for civ in self.population) / len(self.population)), " Average power: ",
-                          round(sum(civ.power for civ in self.population)) / len(self.population), " Dead count: ",
+                    print('Length of population: ', len(self.population) - self.dead_count, " Average power: ",
+                          round(sum(civ.power for civ in self.population if civ.alive)) / len(self.population),
+                          " Dead count: ",
                           self.dead_count, " Time: ", round(age_of_universe), " Visible Civs: ",
-                          round(sum(len(civ.visible_civilisations) for civ in self.population)))
+                          round(sum(len(civ.visible_civilisations) for civ in self.population)),
+                          " Average aggressive: ",
+                          round(sum(civ.agr for civ in self.population if civ.alive)) / len(self.population))
                 dt = self.clock.tick(60)
                 age_of_universe += 1 / dt
 
@@ -58,10 +61,13 @@ class Forest:
                         self.screen.draw_civ(civ)
                         if len(civ.visible_civilisations) > 0:
                             target = random.choice(civ.visible_civilisations)
-                            if random.randint(0, 20) == 15:
-                                civ.coexist(target)
-                            elif random.randint(0, 20) == 15:
-                                civ.attack(target)
+                            if civ.agr < 5:
+                                if target not in civ.alliances:
+                                    if random.randint(0, 100) == 1:
+                                        civ.coexist(target)
+                            elif civ.agr > 9:
+                                if random.randint(0, 100) == 1:
+                                    civ.attack(target)
                             else:
                                 civ.ignore()
 
@@ -69,6 +75,9 @@ class Forest:
                             if not self.population[j].alive:
                                 if self.population[j] in civ.visible_civilisations:
                                     civ.visible_civilisations.remove(self.population[j])
+                            else:
+                                if self.population[j] in civ.alliances:
+                                    self.screen.draw_alliance(civ, self.population[j])
                             distance = math.sqrt(
                                 (self.population[j].x - civ.x) ** 2 + (self.population[j].y - civ.y) ** 2)
                             if distance > 0:

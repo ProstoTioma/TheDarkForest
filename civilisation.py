@@ -9,7 +9,7 @@ random.seed(time.time())
 
 
 class Civilisation:
-    def __init__(self, x, y, agr, vsb, power, speed, d_agr, d_vsb, d_power):
+    def __init__(self, x, y, agr, vsb, power, speed, d_vsb, d_power):
         self.id = random.randint(0, 9999999)
 
         self.power = power
@@ -21,11 +21,12 @@ class Civilisation:
         self.vsb = vsb
         self.speed = speed
 
-        self.d_agr = d_agr
         self.d_vsb = d_vsb
         self.d_power = d_power
 
         self.visible_civilisations = []
+
+        self.alliances = []
 
         self.signals = []
 
@@ -53,7 +54,6 @@ class Civilisation:
         if self.alive:
             self.power += self.d_power / dt
             self.vsb += self.d_vsb / dt
-            self.agr += self.d_agr / dt
             self.age += 1 / dt
 
             if self.speed < 9.999:
@@ -70,7 +70,10 @@ class Civilisation:
                                 sig.goal_civ.visible_civilisations.clear()
 
                         else:
-                            self.power += sig.goal_civ.power * 0.2
+                            if sig.goal_civ not in self.alliances:
+                                self.alliances.append(sig.goal_civ)
+                                sig.goal_civ.alliances.append(self)
+                                self.power += sig.goal_civ.power * 0.2
                         self.signals.remove(sig)
 
                     else:
