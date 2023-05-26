@@ -1,5 +1,7 @@
 import random
 import time
+import math
+import pygame
 
 from signal import Signal
 
@@ -43,29 +45,55 @@ class Civilisation:
     def attack(self, civ):
         self.send_signal(civ, True)
 
+    def draw(self, screen):
+        if self.alive:
+            if self.power < 30:
+                size = 2
+            elif self.power < 200:
+                size = 5
+            else:
+                size = 10
+
+            pygame.draw.circle(screen, self.colour,
+                               (self.x, self.y), size)
+
+            vsb_arc = pygame.Rect(self.x, self.y, self.vsb, self.vsb)
+            vsb_arc.center = self.x, self.y
+
+            pygame.draw.arc(screen, (255, 255, 255),
+                            vsb_arc, 0, math.pi * 2)
+
+            # self.live(dt)
+
+            for signal in self.signals:
+                signal_colour = (0, 200, 0) if not signal.aggressive else (200, 0, 0)
+                pygame.draw.line(screen, signal_colour,
+                                 (signal.x, signal.y), (signal.x + signal.direct_x, signal.y + signal.direct_y))
+
     def live(self, dt):
-        self.power += self.d_power / dt
-        self.vsb += self.d_vsb / dt
-        self.agr += self.d_agr / dt
-        self.age += 1 / dt
+        if self.alive:
+            self.power += self.d_power / dt
+            self.vsb += self.d_vsb / dt
+            self.agr += self.d_agr / dt
+            self.age += 1 / dt
 
-        if self.speed < 0.999:
-            self.speed += self.d_power
+            if self.speed < 0.999:
+                self.speed += self.d_power
 
-        for i in range(len(self.signals) - 1):
-            if len(self.signals) > 0:
-                sig = self.signals[i]
-                if sig.reached:
-                    if sig.aggressive:
-                        sig.goal_civ.alive = False
-                        self.power += sig.goal_civ.power * 0.5
-                        self.vsb += sig.goal_civ.vsb * 0.5
+            for sig in self.signals:
+                if len(self.signals) > 0:
+                    if sig.reached:
+                        if sig.aggressive:
+                            sig.goal_civ.alive = False
+                            self.visible_civilisations.remove(sig.goal_civ)
+                            self.power += sig.goal_civ.power * 0.5
+                            self.vsb += sig.goal_civ.vsb * 0.5
+
+                        else:
+                            self.power += sig.goal_civ.power * 0.2
+                            self.vsb += sig.goal_civ.vsb * 0.2
+
+                        self.signals.remove(sig)
 
                     else:
-                        self.power += sig.goal_civ.power * 0.2
-                        self.vsb += sig.goal_civ.vsb * 0.2
-
-                    self.signals.remove(sig)
-
-                else:
-                    sig.move(self.speed / dt)
+                        sig.move(self.speed / dt)
