@@ -43,12 +43,14 @@ class Forest:
             if len(self.population) > 0:
                 if round(age_of_universe) % 10 == 0:
                     print('Length of population: ', len(self.population) - self.dead_count, " Average power: ",
-                          round(sum(civ.power for civ in self.population if civ.alive)) / len(self.population),
+                          round(sum(civ.power for civ in self.population if civ.alive)) / (
+                                      len(self.population) - self.dead_count),
                           " Dead count: ",
                           self.dead_count, " Time: ", round(age_of_universe), " Visible Civs: ",
                           round(sum(len(civ.visible_civilisations) for civ in self.population)),
                           " Average aggressive: ",
-                          round(sum(civ.agr for civ in self.population if civ.alive)) / len(self.population),
+                          round(sum(civ.agr for civ in self.population if civ.alive)) / (
+                                      len(self.population) - self.dead_count),
                           " Number of alliances: ",
                           round(sum(len(civ.alliances) for civ in self.population if civ.alive)) // 2)
                 dt = self.clock.tick(60)
