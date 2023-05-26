@@ -67,7 +67,7 @@ class Forest:
                                 if target not in civ.alliances:
                                     if random.randint(0, 100) == 1:
                                         civ.coexist(target)
-                            elif civ.agr > 9:
+                            elif civ.agr > 8:
                                 if random.randint(0, 50) == 1:
                                     civ.attack(target)
                             else:

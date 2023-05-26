@@ -68,7 +68,7 @@ class Civilisation:
 
                         else:
                             if sig.goal_civ not in self.alliances:
-                                if sig.goal_civ.agr < 9:
+                                if sig.goal_civ.agr < 8:
                                     self.alliances.append(sig.goal_civ)
                                     sig.goal_civ.alliances.append(self)
                                     self.power += sig.goal_civ.power * 0.1
