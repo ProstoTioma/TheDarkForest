@@ -56,8 +56,8 @@ class Civilisation:
             self.agr += self.d_agr / dt
             self.age += 1 / dt
 
-            if self.speed < 0.999:
-                self.speed += self.d_power
+            if self.speed < 9.999:
+                self.speed += self.d_power / dt
 
             for sig in self.signals:
                 if len(self.signals) > 0:
@@ -68,12 +68,9 @@ class Civilisation:
                                 sig.goal_civ.alive = False
                                 self.power += sig.goal_civ.power * 0.5
                                 sig.goal_civ.visible_civilisations.clear()
-                                # self.vsb += sig.goal_civ.vsb * 0.5
 
                         else:
                             self.power += sig.goal_civ.power * 0.2
-                            # self.vsb += sig.goal_civ.vsb * 0.2
-
                         self.signals.remove(sig)
 
                     else:
