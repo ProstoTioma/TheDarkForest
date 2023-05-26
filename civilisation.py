@@ -63,6 +63,7 @@ class Civilisation:
                             if sig.goal_civ.power <= 0:
                                 sig.goal_civ.alive = False
                                 self.power += sig.goal_civ.power
+                                sig.goal_civ.alliances.clear()
                                 sig.goal_civ.visible_civilisations.clear()
 
                         else:

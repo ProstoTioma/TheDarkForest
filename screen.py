@@ -16,7 +16,7 @@ class Screen:
             elif civ.power < 200:
                 size = 5
             else:
-                size = 15
+                size = 10
 
             pygame.draw.circle(self.screen, civ.colour,
                                (civ.x, civ.y), size)
