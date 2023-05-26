@@ -44,7 +44,7 @@ class Screen:
                 exit()
 
     def draw_alliance(self, civ1, civ2):
-        pygame.draw.line(self.screen, (0, 200, 0), (civ1.x, civ1.y), (civ2.x, civ2.y))
+        pygame.draw.line(self.screen, (0, 200, 0), (civ1.x, civ1.y), (civ2.x, civ2.y), width=1)
 
 
 

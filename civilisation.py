@@ -32,7 +32,6 @@ class Civilisation:
 
         self.alive = True
 
-        self.hp = self.power
 
         self.colour = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
@@ -63,17 +62,18 @@ class Civilisation:
                 if len(self.signals) > 0:
                     if sig.reached:
                         if sig.aggressive:
-                            sig.goal_civ.hp -= 1
-                            if sig.goal_civ.hp <= 0:
+                            sig.goal_civ.power -= self.power
+                            if sig.goal_civ.power <= 0:
                                 sig.goal_civ.alive = False
                                 self.power += sig.goal_civ.power * 0.5
                                 sig.goal_civ.visible_civilisations.clear()
 
                         else:
                             if sig.goal_civ not in self.alliances:
-                                self.alliances.append(sig.goal_civ)
-                                sig.goal_civ.alliances.append(self)
-                                self.power += sig.goal_civ.power * 0.2
+                                if sig.goal_civ.agr < 9:
+                                    self.alliances.append(sig.goal_civ)
+                                    sig.goal_civ.alliances.append(self)
+                                    self.power += sig.goal_civ.power * 0.2
                         self.signals.remove(sig)
 
                     else:
