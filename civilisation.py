@@ -45,31 +45,6 @@ class Civilisation:
     def attack(self, civ):
         self.send_signal(civ, True)
 
-    def draw(self, screen):
-        if self.alive:
-            if self.power < 30:
-                size = 2
-            elif self.power < 200:
-                size = 5
-            else:
-                size = 10
-
-            pygame.draw.circle(screen, self.colour,
-                               (self.x, self.y), size)
-
-            vsb_arc = pygame.Rect(self.x, self.y, self.vsb, self.vsb)
-            vsb_arc.center = self.x, self.y
-
-            pygame.draw.arc(screen, (255, 255, 255),
-                            vsb_arc, 0, math.pi * 2)
-
-            # self.live(dt)
-
-            for signal in self.signals:
-                signal_colour = (0, 200, 0) if not signal.aggressive else (200, 0, 0)
-                pygame.draw.line(screen, signal_colour,
-                                 (signal.x, signal.y), (signal.x + signal.direct_x, signal.y + signal.direct_y))
-
     def live(self, dt):
         if self.alive:
             self.power += self.d_power / dt

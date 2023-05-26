@@ -49,9 +49,11 @@ class Forest:
 
                 self.dead_count = sum(not civ.alive for civ in self.population)
 
-
+                self.screen.draw()
                 for civ in self.population:
                     if civ.alive:
+                        civ.live(dt)
+                        self.screen.draw_civ(civ)
                         if len(civ.visible_civilisations) > 0:
                             target = random.choice(civ.visible_civilisations)
                             if random.randint(0, 20) == 15:
@@ -69,7 +71,7 @@ class Forest:
                                 if distance < civ.vsb:
                                     civ.visible_civilisations.append(self.population[j])
 
-                self.screen.draw(self.population, dt)
+
 
                 # if random.randint(0, 1000) == 10: TODO spawn new civs
                 #    self.population = self.generate_civilisations(1)
